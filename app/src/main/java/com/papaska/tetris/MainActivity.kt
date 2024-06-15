@@ -46,6 +46,7 @@ class MainActivity : AppCompatActivity() {
         val preferences = AppPreferences(this)
         preferences.clearHighScore()
         Snackbar.make(view, "Score successfully reset", Snackbar.LENGTH_SHORT).show()
+        tvHighScore?.text = resources.getText(R.string.high_score_default)
     }
 
     private fun hideActionBar() {
