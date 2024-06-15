@@ -1,20 +1,35 @@
 package com.papaska.tetris
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.papaska.tetris.storage.AppPreferences
 
 class GameActivity : AppCompatActivity() {
+    private var tvHighScore: TextView? = null
+    private var tvCurrentScore: TextView? = null
+    private var appPreferences: AppPreferences? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_game)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
-        }
+
+        appPreferences = AppPreferences(this)
+
+        val btnRestart = findViewById<Button>(R.id.btn_restart)
+        tvHighScore = findViewById(R.id.tv_high_score)
+        tvCurrentScore = findViewById(R.id.tv_current_score)
+
+        updateHighScore()
+        updateCurrentScore()
+    }
+
+    private fun updateHighScore() {
+        tvHighScore?.text = appPreferences?.getHighScore().toString()
+    }
+
+    private fun updateCurrentScore() {
+        tvCurrentScore?.text = "0"
     }
 }
