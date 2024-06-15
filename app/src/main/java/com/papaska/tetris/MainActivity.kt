@@ -6,6 +6,8 @@ import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
+import com.papaska.tetris.storage.AppPreferences
 import kotlin.system.exitProcess
 
 class MainActivity : AppCompatActivity() {
@@ -41,7 +43,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onBtnResetScoreClick(view: View) {
-
+        val preferences = AppPreferences(this)
+        preferences.clearHighScore()
+        Snackbar.make(view, "Score successfully reset", Snackbar.LENGTH_SHORT).show()
     }
 
     private fun hideActionBar() {
