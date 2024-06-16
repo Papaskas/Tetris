@@ -1,17 +1,20 @@
 package com.papaska.tetris.models;
 
-import com.papaska.tetris.constants.FieldConstants;
-
 import android.graphics.Color;
 import android.graphics.Point;
 
 import androidx.annotation.NonNull;
 
+import com.papaska.tetris.constants.FieldConstants;
+
 import java.util.Random;
 
-public class Block {
-    private final int shapeIndex;
+public class Block  {
+
+    // current block state:
+    private int shapeIndex ;
     private int frameNumber;
+
     private BlockColor color;
     private Point position;
 
@@ -22,53 +25,56 @@ public class Block {
         this.position = new Point( FieldConstants.COLUMN_COUNT.getValue() / 2, 0);
     }
 
-    static Block createBlock() {
+    public static Block createBlock() {
         Random random = new Random();
         int shapeIndex = random.nextInt(Shape.values().length);
-        BlockColor blockColor = BlockColor.values()
-                [random.nextInt(BlockColor.values().length)];
+        BlockColor blockColor = BlockColor.values()[random.nextInt(BlockColor
+                .values().length)];
 
         Block block = new Block(shapeIndex, blockColor);
-        block.position.x =- Shape.values()
-                [shapeIndex].getStartPosition();
+        // Set to the middle
+        block.position.x = block.position.x - Shape.values()[shapeIndex].getStartPosition();
 
         return block;
+
     }
 
-    static int getColor(byte value) {
-        for (BlockColor color : BlockColor.values())
-            if (value == color.byteValue) return color.rgbValue;
-
+    public static int getColor(byte value) {
+        for (BlockColor colour : BlockColor.values()) {
+            if (value == colour.byteValue) {
+                return colour.rgbValue;
+            }
+        }
         return -1;
     }
 
-    final void setState(int frame, Point position) {
+    public final void setState(int frame, Point position) {
         this.frameNumber = frame;
         this.position = position;
     }
 
     @NonNull
-    final byte[][] getShape(int frameNumber) {
+    public final byte[][] getShape(int frameNumber) {
         return Shape.values()[shapeIndex].getFrame(frameNumber).as2dByteArray();
     }
 
-    Point getPosition() {
-        return position;
+    public Point getPosition() {
+        return this.position;
     }
 
-    final int getFrameCount() {
+    public final int getFrameCount() {
         return Shape.values()[shapeIndex].getFrameCount();
     }
 
-    int getFrameNumber() {
+    public int getFrameNumber() {
         return frameNumber;
     }
 
-    int getColor() {
+    public int getColor() {
         return color.rgbValue;
     }
 
-    byte getStaticValue() {
+    public byte getStaticValue() {
         return color.byteValue;
     }
 
@@ -79,12 +85,13 @@ public class Block {
         YELLOW(Color.rgb(255, 255, 0), (byte) 5),
         CYAN(Color.rgb(0, 255, 255), (byte) 6);
 
-        private final int rgbValue;
-        private final byte byteValue;
-
         BlockColor(int rgbValue, byte value) {
             this.rgbValue = rgbValue;
             this.byteValue = value;
         }
+
+        private final int rgbValue;
+        private final byte byteValue;
+
     }
 }

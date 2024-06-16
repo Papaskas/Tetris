@@ -1,16 +1,16 @@
 package com.papaska.tetris.models
 
-import com.papaska.tetris.helper.array2dOfByte
+import com.papaska.tetris.helpers.array2dOfByte
 
-class Frame (private val width: Int) {
-    private val data: ArrayList<ByteArray> = ArrayList()
+class Frame(private val width: Int) {
+    val data: ArrayList<ByteArray> = ArrayList()
 
     fun addRow(byteStr: String): Frame {
         val row = ByteArray(byteStr.length)
 
-        for (index in byteStr.indices)
-            row[index] = byteStr[index].toString().toByte()
-
+        for (index in byteStr.indices) {
+            row[index] = "${byteStr[index]}".toByte()
+        }
         data.add(row)
         return this
     }
